@@ -91,14 +91,8 @@ const renderCards = (list) => {
             card.querySelector(".like").className = "like";
         }
     }
-    // document.querySelector("#count").textContent = list.length + "편";
-    // updateLikeCount();
-    // if (list.length === 0) {
-    //     board.classList.add("is-empty");
-    // }else{
-    //     board.classList.remove("is-empty");
-    // }
-    // document.getElementById("likeCount").textContent = liked.length;
+    document.querySelector("#count").textContent = "총 " + list.length + "편";
+    document.getElementById("likeCount").textContent = liked.length;
 };
 
 // 찜한 제목 배열을 브라우저에 저장하고 불러오기(교재에 없는 문법: localStorage, JSON)
@@ -134,10 +128,6 @@ document.querySelector(".board").addEventListener("click", (e)=>{
 // document.getElementById("themeToggle").addEventListener("click", () => {
 //     document.body.classList.toggle("dark");
 // });
-
-// function updateLikeCount() {
-//     document.getElementById("likeCount").textContent = document.querySelectorAll(".liked").length;
-// }
 
 document.querySelector("#q").addEventListener("input", refresh); // id = #q 요소에 input 이벤트가 발생하면 refresh 함수 실행
 document.querySelector("#sort").addEventListener("change", refresh); // id = #sort 요소에 change 이벤트가 발생하면 refresh 함수 실행
