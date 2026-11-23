@@ -24,7 +24,7 @@ const search = (list, keyword) => {
     return list_dic;
 };
 
-// 조건에 맞는 렌더링을 위한 배열을 반환하는 함수
+// getView : X => 조건에 맞는 렌더링을 위한 배열
 function getView() {
     const keyword = document.querySelector("#q").value;
     const type = document.querySelector('input[name="type"]:checked').value; // 전체 or 내영화 or 박스오피스
@@ -42,11 +42,12 @@ function getView() {
     return result;
 }
 
-// 영화별 이미지 URL 생성 함수
+// posterUrl : TMDB 포스터 이미지별 주소, 포스터 크기 => 포스터 전체주소
 const posterUrl = (path, size) => {
     return `https://image.tmdb.org/t/p/${size}/${path}`;
 };
 
+// openDetail : 클릭한 카드의 제목 => 모달로 해당 영화의 상세페이지 표시(반환값 없음)
 function openDetail(title){
     const finded = movies.find(m => m.title === title);
     if (!finded) {
@@ -63,10 +64,8 @@ function openDetail(title){
     dialog.showModal();
 }
 
-// 상세열때
-// dialog.showModal();
-// dialog.close();
-
+// refresh가 있어야 조건이 변할때 마다 렌더링하여 화면이 해당 조건을 만족하는 화면으로 전환댐
+// refresh : X => getView()가 반환한 조건이 담긴 배열을 renderCards가 파라미터로 받아 렌더링 함 
 function refresh() { renderCards(getView()); }
 
 // renderCards : 영화 배열 ⇒ 보드에 카드 생성(반환값 없음)
@@ -76,7 +75,6 @@ const renderCards = (list) => {
     for (const m of list) {
         const card = document.createElement("article");
         card.className = "card";
-        card.dataset.id = m.id;
         card.setAttribute("data-type", m.type);
         card.setAttribute("data-title", m.title);
         if (m.rating >= 8) {
@@ -123,9 +121,6 @@ function saveLiked() {
     localStorage.setItem("liked", JSON.stringify(liked));
 }
 
-// 찜 기능
-// function (e)를 쓰면 this가 보드이고, e.target은 하트 버튼인데 반해
-// 화살표 함수인 (e) => {}로 쓰면 this가 window이고, e.target은 하트 버튼
 document.querySelector(".board").addEventListener("click", (e)=>{
     const card = e.target.closest(".card");
     if(!card){
@@ -148,7 +143,6 @@ document.querySelector(".board").addEventListener("click", (e)=>{
     }
     openDetail(title)
 })
-
 document.querySelector("#q").addEventListener("input", refresh); // id = #q 요소에 input 이벤트가 발생하면 refresh 함수 실행
 document.querySelector("#sort").addEventListener("change", refresh); // id = #sort 요소에 change 이벤트가 발생하면 refresh 함수 실행
 document.querySelector("#typeFilter").addEventListener("change", refresh); // 이하동문
